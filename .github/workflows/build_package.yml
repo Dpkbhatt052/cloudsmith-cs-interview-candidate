@@ -36,7 +36,7 @@ jobs:
 
       - name: Build package
         run: |
-          hatch build
+          python -m build    # we can even use hatch build too for that we need to first install hatch using pip install hatch and then has to echo "$HOME/.local/bin" >> $GITHUB_PATH 
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
