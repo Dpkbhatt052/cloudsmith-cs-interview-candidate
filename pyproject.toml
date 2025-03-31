@@ -18,5 +18,5 @@ classifiers = [
     "Operating System :: OS Independent",
 ] 
 
-[tool.hatch.build.targets.wheel]             # Hatch is primarily designed as a command-line tool and handles Python environment management internally.
+[tool.hatch.build.targets.wheel]             # Hatch is primarily designed as a command-line tool and handles Python environment management internally. https://hatch.pypa.io/1.13/build/
 packages = ["src/example_package"]
