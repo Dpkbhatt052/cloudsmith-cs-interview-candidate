@@ -1,3 +1,4 @@
+bhi
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
@@ -18,5 +19,5 @@ classifiers = [
     "Operating System :: OS Independent",
 ] 
 
-[tool.hatch.build.targets.wheel]
+[tool.hatch.build.targets.wheel]             # Hatch is primarily designed as a command-line tool and handles Python environment management internally.
 packages = ["src/example_package"]
