@@ -36,7 +36,6 @@ jobs:
 
       - name: Build package
         run: |
-          pip install build
           python -m build
 
       - name: Upload artifact
