@@ -3,6 +3,8 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
+name = "cloudsmith-package"    # Add this learnt from https://packaging.python.org/en/latest/guides/writing-pyproject-toml/
+version = "0.0.1"              # Took this version from src/example_package/__init__.py
 
 authors = [
   { name="Example Author", email="author@example.com" },
