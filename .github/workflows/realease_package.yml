@@ -33,7 +33,7 @@ jobs:
           github-token: ${{ github.token }}
           run-id: ${{ github.event.workflow_run.id }}
 
-# There is no Cloudsmith CLI installation.
+# There is no Cloudsmith CLI installation - https://github.com/cloudsmith-io/cloudsmith-cli-action
 
       - name: Install Cloudsmith CLI
         uses: cloudsmith-io/cloudsmith-cli-action@v1.0.3
