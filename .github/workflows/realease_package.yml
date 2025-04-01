@@ -17,6 +17,7 @@ env:
 permissions:
   contents: read
   actions: read
+  id-token: write #https://stackoverflow.com/questions/72504998/unable-to-get-actions-id-token-request-url-env-variable
 
 jobs:
   publish:
