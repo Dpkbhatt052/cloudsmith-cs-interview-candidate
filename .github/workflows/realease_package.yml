@@ -33,7 +33,7 @@ jobs:
           github-token: ${{ github.token }}
           run-id: ${{ github.event.workflow_run.id }}
 
-
+# There is no Cloudsmith CLI installation.
 
       - name: List directory contents
         run: ls -la dist/
