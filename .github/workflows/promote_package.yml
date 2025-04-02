@@ -51,7 +51,7 @@ jobs:
           echo "Found package identifier: $IDENTIFIER"
 
           # reffering to https://help.cloudsmith.io/docs/package-tags#:~:text=Add%20Tags&text=To%20add%20an%20immutable%20tag%2C%20use%20the%20%2D%2Dimmutable%20flag.&text=You%20may%20also%20add%20tags,via%20the%20cloudsmith%20push%20command.
-          PACKAGE_TAG=$(cloudsmith tags add ${{ env.CLOUDSMITH_NAMESPACE }}/${{ env.CLOUDSMITH_STAGING_REPO/$IDENTIFIER }} ready-for-production)
+          PACKAGE_TAG=$(cloudsmith tags add ${{ env.CLOUDSMITH_NAMESPACE }}/${{ env.CLOUDSMITH_STAGING_REPO}}/${{ IDENTIFIER }} ready-for-production)
           
           # Promote package using the identifier
           cloudsmith mv --yes \
