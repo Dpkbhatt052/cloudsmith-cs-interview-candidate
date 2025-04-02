@@ -1,6 +1,8 @@
 name: Promote Python Package
 
 on:
+  repository_dispatch:
+    types: [cloudsmith-package-synced]
   workflow_dispatch:
     inputs:
       package_version:
