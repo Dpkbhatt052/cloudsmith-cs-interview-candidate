@@ -3,12 +3,12 @@ name: Promote Python Package
 on:
   repository_dispatch:
     types: [cloudsmith-package-synced]
-  workflow_dispatch:
-    inputs:
-      package_version:
-        description: 'Package version to promote (e.g., 0.0.1)'
-        required: true
-        type: string
+  #workflow_dispatch:
+    #inputs:
+      #package_version:
+        #description: 'Package version to promote (e.g., 0.0.1)'
+        #required: true
+        #type: string
 
 env:
   CLOUDSMITH_NAMESPACE: ${{ vars.CLOUDSMITH_NAMESPACE }}
@@ -52,9 +52,32 @@ jobs:
 
           # reffering to https://help.cloudsmith.io/docs/package-tags#:~:text=Add%20Tags&text=To%20add%20an%20immutable%20tag%2C%20use%20the%20%2D%2Dimmutable%20flag.&text=You%20may%20also%20add%20tags,via%20the%20cloudsmith%20push%20command.
           PACKAGE_TAG=$(cloudsmith tags add ${{ env.CLOUDSMITH_NAMESPACE }}/${{ env.CLOUDSMITH_STAGING_REPO}}/$IDENTIFIER ready-for-production)
-          
-          # Promote package using the identifier
-          cloudsmith mv --yes \
-            ${{ env.CLOUDSMITH_NAMESPACE }}/${{ env.CLOUDSMITH_STAGING_REPO }}/$IDENTIFIER \
-            ${{ env.CLOUDSMITH_PRODUCTION_REPO }}      #
+
+      - name: Promote all the packages with Ready-for-Production to production repository
+        run: |
+          echo "Fetching all packages tagged 'ready-for-production' in staging repository..."
+
+          # Query all packages tagged as "ready-for-production"
+          PACKAGE_DATA=$(cloudsmith list package ${{ env.CLOUDSMITH_NAMESPACE }}/${{ env.CLOUDSMITH_PRODUCTION_REPO }} -q "tag:ready-for-production" -F json)
+
+          # Extract identifiers for all packages with the tag
+          IDENTIFIERS=$(echo "$PACKAGE_DATA" | jq -r '.data[].identifier_perm')
+
+          if [ -z "$IDENTIFIERS" ] || [ "$IDENTIFIERS" = "null" ]; then
+            echo "No packages found with the 'ready-for-production' tag."
+            exit 1
+          fi
+
+          echo "Found the following package identifiers: $IDENTIFIERS"
+
+          # Loop through each package and promote it
+          for IDENTIFIER in $IDENTIFIERS; do
+            echo "Promoting package: $IDENTIFIER"
+
+            cloudsmith mv --yes \
+              ${{ env.CLOUDSMITH_NAMESPACE }}/${{ env.CLOUDSMITH_PRODUCTION_REPO }}/$IDENTIFIER \
+              ${{ env.CLOUDSMITH_STAGING_REPO }}
+
+            echo "Successfully promoted package: $IDENTIFIER"
+          done    
         shell: bash
